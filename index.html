@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Rush</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+        <!-- Splash / Title Screen -->
+        <section id="title-screen" class="screen active">
+            <div class="background-overlay"></div>
+            <div class="title-container">
+                <h1 class="glow-title">
+                    <span class="purple-neon">MEMORY</span>
+                    <span class="gold-neon">RUSH</span>
+                </h1>
+                <p class="subtitle fade-pulse">Can you match them all?</p>
+                <p class="tap-to-start mt-4">Tap anywhere to start</p>
+            </div>
+        </section>
+
+        <!-- Login / Auth Screen -->
+        <section id="login-screen" class="screen">
+            <div class="background-overlay space-bg"></div>
+            <div class="glass-panel login-box">
+                <h2 class="neon-text-small">Welcome to Memory Rush</h2>
+                <div class="input-group">
+                    <input type="text" id="username-input" placeholder="Enter Username" autocomplete="off">
+                </div>
+                <div id="login-error" class="error-text hidden"></div>
+                <div class="button-group-vertical">
+                    <button id="btn-signin" class="btn btn-green">Sign In</button>
+                    <button id="btn-signup" class="btn btn-blue">Sign Up</button>
+                    <div class="divider"></div>
+                    <button id="btn-admin" class="btn btn-grey">Admin Dashboard</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Menu -->
+        <section id="menu-screen" class="screen">
+            <div class="background-overlay theme-overlay"></div>
+            <div class="glass-panel menu-box">
+                <h2 id="welcome-text" class="neon-text-small">Welcome, User!</h2>
+                <div class="best-score-badge">
+                    🏆 Best Score: <span id="best-score-display">0</span>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Difficulty</label>
+                        <select id="difficulty-select" class="glass-input">
+                            <option value="easy">Easy (4×4)</option>
+                            <option value="medium">Medium (4×5)</option>
+                            <option value="hard">Hard (4×6)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Theme</label>
+                        <select id="theme-select" class="glass-input">
+                            <option value="animals">🦁 Animals</option>
+                            <option value="space">🚀 Space</option>
+                            <option value="food">🍔 Food</option>
+                            <option value="sport">⚽ Sports</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="btn-play" class="btn btn-play glow-pulse">PLAY GAME</button>
+
+                <div class="menu-bottom-actions mt-4">
+                    <button id="btn-sound" class="btn btn-blue small-btn">🔊 Sound: ON</button>
+                    <button id="btn-switch-user" class="btn btn-red small-btn">Switch User</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Screen -->
+        <section id="game-screen" class="screen">
+            <div class="background-overlay theme-overlay"></div>
+            
+            <div class="hud glass-panel">
+                <div class="hud-left">
+                    <div class="hud-item"><span class="icon">⭐</span> <span id="game-score">0</span></div>
+                    <div class="hud-item"><span class="icon">🔄</span> <span id="game-moves">0</span></div>
+                </div>
+                
+                <h2 class="game-title neon-text-medium">MEMORY RUSH</h2>
+                
+                <div class="hud-right">
+                    <div class="hud-item"><span class="icon">⏳</span> <span id="game-time">60</span>s</div>
+                    <div class="hud-item combo-item"><span class="icon">🔥</span> <span id="game-combo">0</span>x</div>
+                </div>
+            </div>
+
+            <div id="game-container">
+                <div id="game-board"></div>
+            </div>
+
+            <div class="game-actions">
+                <button id="btn-game-menu" class="btn btn-red">Menu</button>
+            </div>
+        </section>
+
+        <!-- Result Modal -->
+        <div id="result-modal" class="modal hidden">
+            <div class="glass-panel text-center modal-box">
+                <h2 id="result-title" class="neon-text-large">Victory!</h2>
+                <div id="new-record-msg" class="gold-highlight hidden">New High Score!</div>
+                <div class="stats-grid">
+                    <p>👤 <span id="res-user">Player</span></p>
+                    <p>⭐ <span id="res-score">0</span></p>
+                    <p>🔄 <span id="res-moves">0</span></p>
+                    <p>⏳ <span id="res-time">0</span>s</p>
+                </div>
+                <div class="modal-buttons mt-4">
+                    <button id="btn-play-again" class="btn btn-green">Play Again</button>
+                    <button id="btn-back-menu" class="btn btn-red">Menu</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Password Modal -->
+        <div id="admin-pass-modal" class="modal hidden">
+            <div class="glass-panel text-center modal-box" style="width: 350px;">
+                <h3 class="neon-text-small">Admin Access</h3>
+                <input type="password" id="admin-pass-input" placeholder="Enter Password (admin123)" class="mt-4">
+                <div id="admin-pass-error" class="error-text hidden mt-2">Incorrect Password</div>
+                <div class="modal-buttons mt-4">
+                    <button id="btn-admin-submit" class="btn btn-blue">Login</button>
+                    <button id="btn-admin-cancel" class="btn btn-grey">Cancel</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Dashboard -->
+        <section id="admin-screen" class="screen">
+            <div class="background-overlay space-bg"></div>
+            <div class="admin-panel glass-panel">
+                <div class="admin-header">
+                    <h2 class="neon-text-small">Admin Dashboard - <span id="admin-title-suffix">Game History</span></h2>
+                    <button id="btn-admin-back" class="btn btn-grey small-btn">Back to Login</button>
+                </div>
+                
+                <div class="admin-tabs">
+                    <button class="tab-btn active" data-tab="history">Game History</button>
+                    <button class="tab-btn" data-tab="highscores">Player High Scores</button>
+                </div>
+                
+                <div class="table-container">
+                    <table id="admin-table">
+                        <thead></thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div id="admin-empty-state" class="hidden">No data available.</div>
+            </div>
+        </section>
+
+        <!-- Audio Elements -->
+        <audio id="snd-flip" src="sounds/flip.mp3" preload="auto"></audio>
+        <audio id="snd-match" src="sounds/match.mp3" preload="auto"></audio>
+        <audio id="snd-wrong" src="sounds/wrong.mp3" preload="auto"></audio>
+        <audio id="snd-win" src="sounds/win.mp3" preload="auto"></audio>
+        <audio id="snd-click" src="sounds/click.mp3" preload="auto"></audio>
+        <audio id="snd-menu-music" src="sounds/menu-music.mp3" loop preload="auto"></audio>
+        <audio id="snd-game-music" src="sounds/game-music.mp3" loop preload="auto"></audio>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
